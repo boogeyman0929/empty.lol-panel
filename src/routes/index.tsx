@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import Header from "@/components/header";
 import Roster from "@/components/roster";
 import Hanging from "@/components/hanging";
 import Grain from "@/components/grain";
 import Scanlines from "@/components/scanlines";
 import Particles from "@/components/particles";
+import EnterGate from "@/components/entergate";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,6 +21,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [entered, setEntered] = useState(false);
+
+  if (!entered) {
+    return <EnterGate onEnter={() => setEntered(true)} />;
+  }
+
   return (
     <div
       style={{
@@ -34,6 +42,14 @@ function Index() {
         backgroundRepeat: "no-repeat",
       }}
     >
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.75)",
+          zIndex: 0,
+        }}
+      />
       <Hanging />
       <Grain />
       <Scanlines />
@@ -45,10 +61,10 @@ function Index() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "40px",
-          maxWidth: "320px",
+          gap: "50px",
+          maxWidth: "400px",
           width: "100%",
-          padding: "120px 20px 60px",
+          padding: "140px 20px 60px",
         }}
       >
         <Header />
