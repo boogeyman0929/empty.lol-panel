@@ -1,9 +1,12 @@
+import { useState, useEffect } from "react";
+
 interface MemberData {
   name: string;
   role: string;
   bio: string;
   pfp: string;
   link: string | null;
+  discord: string | null;
 }
 
 interface Props {
@@ -12,7 +15,23 @@ interface Props {
 }
 
 export default function MemberModal({ member, onClose }: Props) {
+  const [displayedBio, setDisplayedBio] = useState("");
+
+  useEffect(() => {
+    if (!member) return;
+    setDisplayedBio("");
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayedBio(member.bio.slice(0, i));
+      if (i >= member.bio.length) clearInterval(interval);
+    }, 35);
+    return () => clearInterval(interval);
+  }, [member]);
+
   if (!member) return null;
+
+  const actionCount = (member.link ? 1 : 0) + (member.discord ? 1 : 0) + 1;
 
   return (
     <div
@@ -102,7 +121,7 @@ export default function MemberModal({ member, onClose }: Props) {
           <div
             style={{
               flex: 1,
-              fontSize: "11px",
+              fontSize: "14px",
               lineHeight: 1.7,
               padding: "25px",
               textAlign: "left",
@@ -111,12 +130,13 @@ export default function MemberModal({ member, onClose }: Props) {
               background: "#080808",
             }}
           >
-            {member.bio}
+            {displayedBio}
+            <span style={{ animation: "blink 1s step-end infinite", color: "#444" }}>|</span>
           </div>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              gridTemplateColumns: `repeat(${actionCount}, 1fr)`,
               borderTop: "1px solid #1a1a1a",
             }}
           >
@@ -140,6 +160,28 @@ export default function MemberModal({ member, onClose }: Props) {
                 className="modal-pill"
               >
                 Telegram
+              </a>
+            )}
+            {member.discord && (
+              <a
+                href={member.discord}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: "15px 10px",
+                  fontSize: "8px",
+                  letterSpacing: "3px",
+                  color: "#444",
+                  textDecoration: "none",
+                  transition: "0.2s",
+                  borderRight: "1px solid #111",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  fontFamily: "var(--font-minecraft)",
+                }}
+                className="modal-pill"
+              >
+                Discord
               </a>
             )}
             <div
