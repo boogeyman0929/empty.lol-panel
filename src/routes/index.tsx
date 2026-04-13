@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import Header from "@/components/header";
 import Roster from "@/components/roster";
-import Hanging from "@/components/hanging";
 import Grain from "@/components/grain";
 import Scanlines from "@/components/scanlines";
 import Particles from "@/components/particles";
@@ -50,7 +49,7 @@ function Index() {
           zIndex: 0,
         }}
       />
-      <Hanging />
+      
       <Grain />
       <Scanlines />
       <Particles />
@@ -64,7 +63,7 @@ function Index() {
           gap: "50px",
           maxWidth: "400px",
           width: "100%",
-          padding: "140px 20px 60px",
+          padding: "80px 20px 60px",
         }}
       >
         <Header />
