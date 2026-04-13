@@ -25,10 +25,10 @@ export default function Header() {
           alt=""
           draggable={false}
           style={{
-            width: "80px",
+            width: "110px",
             height: "auto",
             filter: "grayscale(1) contrast(0.85)",
-            marginBottom: "16px",
+            marginBottom: "20px",
             userSelect: "none",
             transition: "all 0.3s ease",
           }}
@@ -49,24 +49,26 @@ export default function Header() {
         style={{
           textDecoration: "none",
           fontFamily: "var(--font-minecraft)",
-          fontSize: "14px",
+          fontSize: "20px",
           letterSpacing: "8px",
-          color: "#888",
+          color: "#f2f2f2",
+          fontWeight: 700,
+          textTransform: "uppercase",
           transition: "color 0.3s ease",
           cursor: "pointer",
         }}
         onMouseEnter={(e) => (e.currentTarget.style.color = "#aaa")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#888")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#f2f2f2")}
       >
         empty.lol
       </a>
       <p
         style={{
           fontFamily: "var(--font-minecraft)",
-          fontSize: "8px",
+          fontSize: "9px",
           letterSpacing: "4px",
           color: "#444",
-          marginTop: "6px",
+          marginTop: "8px",
           animation: "fadein 1s ease both",
           animationDelay: "0.8s",
           opacity: 0,
@@ -79,7 +81,7 @@ export default function Header() {
           width: "40px",
           height: "1px",
           background: "rgba(234,234,234,0.08)",
-          marginTop: "20px",
+          marginTop: "24px",
           animation: "fadein 1s ease both",
           animationDelay: "1s",
           opacity: 0,
