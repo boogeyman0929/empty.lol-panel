@@ -1,19 +1,59 @@
 import { createFileRoute } from "@tanstack/react-router";
+import Header from "@/components/header";
+import Roster from "@/components/roster";
+import Hanging from "@/components/hanging";
+import Grain from "@/components/grain";
+import Scanlines from "@/components/scanlines";
+import Particles from "@/components/particles";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "empty.lol" },
+      { name: "description", content: "private roster" },
+      { property: "og:title", content: "empty.lol" },
+      { property: "og:description", content: "private roster" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        backgroundImage: "url(/images/bg.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <Hanging />
+      <Grain />
+      <Scanlines />
+      <Particles />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "40px",
+          maxWidth: "320px",
+          width: "100%",
+          padding: "120px 20px 60px",
+        }}
+      >
+        <Header />
+        <Roster />
+      </div>
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
