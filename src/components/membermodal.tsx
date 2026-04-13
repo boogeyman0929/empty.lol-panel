@@ -14,7 +14,7 @@ export default function MemberModal({
   member: Member
   onClose: () => void
 }) {
-  const open = (url: string | null) => {
+  const openLink = (url: string | null) => {
     if (!url) return
     window.open(url, "_blank", "noopener,noreferrer")
   }
@@ -25,56 +25,70 @@ export default function MemberModal({
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0,0,0,0.72)",
-        backdropFilter: "blur(4px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        zIndex: 9999,
-        animation: "fadein 0.22s ease",
+        zIndex: 1000,
         padding: "20px",
+        animation: "fadein 0.2s ease",
       }}
     >
       <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.9)",
+        }}
+      />
+
+      <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          width: "min(760px, 92vw)",
-          minHeight: "360px",
-          background: "rgba(8,8,8,0.9)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          display: "grid",
-          gridTemplateColumns: "220px 1fr",
+          position: "relative",
+          width: "550px",
+          maxWidth: "92vw",
+          minHeight: "260px",
+          background: "#080808",
+          border: "1px solid #1a1a1a",
+          display: "flex",
+          flexDirection: "row",
           overflow: "hidden",
           boxShadow: "0 20px 80px rgba(0,0,0,0.55)",
         }}
       >
         <div
           style={{
-            borderRight: "1px solid rgba(255,255,255,0.06)",
+            width: "180px",
+            padding: "30px",
+            borderRight: "1px solid #1a1a1a",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "flex-start",
-            padding: "28px 20px",
+            background: "#050505",
+            flexShrink: 0,
           }}
         >
           <div
             style={{
               width: "120px",
-              height: "150px",
-              border: "1px solid rgba(255,255,255,0.05)",
-              background: `#000 url(${member.pfp}) center/cover no-repeat`,
-              filter: "grayscale(100%) brightness(0.55)",
-              marginBottom: "22px",
+              height: "120px",
+              marginBottom: "20px",
+              border: "1px solid #333",
+              background: `center/cover no-repeat url(${member.pfp})`,
+              filter: "grayscale(100%) contrast(1.3) brightness(0.4)",
             }}
           />
+
           <div
             style={{
-              fontFamily: "var(--font-pricedown)",
-              fontSize: "24px",
-              letterSpacing: "3px",
-              color: "#f3f3f3",
+              width: "100%",
               textAlign: "center",
+              fontFamily: "var(--font-pricedown)",
+              fontSize: "18px",
+              letterSpacing: "4px",
+              fontWeight: 700,
+              color: "#f2f2f2",
+              textTransform: "uppercase",
             }}
           >
             {member.name}
@@ -83,6 +97,7 @@ export default function MemberModal({
 
         <div
           style={{
+            flex: 1,
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
@@ -90,16 +105,14 @@ export default function MemberModal({
         >
           <div
             style={{
-              height: "74px",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              display: "flex",
-              alignItems: "center",
-              padding: "0 28px",
-              fontFamily: "var(--font-minecraft)",
-              fontSize: "11px",
-              letterSpacing: "4px",
+              fontSize: "9px",
+              color: "#333",
+              letterSpacing: "3px",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.32)",
+              padding: "15px 25px",
+              borderBottom: "1px solid #1a1a1a",
+              background: "#0a0a0a",
+              fontFamily: "var(--font-minecraft)",
             }}
           >
             {member.role === "founder" ? "founder" : "node_01 // session_active"}
@@ -108,49 +121,46 @@ export default function MemberModal({
           <div
             style={{
               flex: 1,
-              padding: "28px",
-              display: "flex",
-              alignItems: "flex-start",
+              fontSize: "11px",
+              lineHeight: 1.7,
+              padding: "25px",
+              textAlign: "left",
+              color: "#999",
+              fontFamily: '"Courier New", monospace',
+              background: "#080808",
+              whiteSpace: "pre-wrap",
             }}
           >
-            <p
-              style={{
-                margin: 0,
-                color: "rgba(255,255,255,0.82)",
-                fontFamily: "Georgia, serif",
-                fontSize: "clamp(20px, 2.2vw, 28px)",
-                lineHeight: 1.7,
-                maxWidth: "440px",
-              }}
-            >
-              {member.bio}
-            </p>
+            {member.bio}
           </div>
 
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
+              gridTemplateColumns: "1fr 1fr 1fr",
+              borderTop: "1px solid #1a1a1a",
             }}
           >
             <button
-              onClick={() => open(member.link)}
-              style={actionStyle}
+              type="button"
+              onClick={() => openLink(member.link)}
+              style={pillStyle}
             >
               telegram
             </button>
 
             <button
-              onClick={() => open(member.discord)}
-              style={actionStyle}
+              type="button"
+              onClick={() => openLink(member.discord)}
+              style={pillStyle}
             >
               discord
             </button>
 
             <button
+              type="button"
               onClick={onClose}
-              style={actionStyle}
+              style={{ ...pillStyle, borderRight: "0" }}
             >
               close
             </button>
@@ -161,15 +171,17 @@ export default function MemberModal({
   )
 }
 
-const actionStyle: React.CSSProperties = {
-  height: "56px",
-  background: "transparent",
-  border: "0",
-  borderRight: "1px solid rgba(255,255,255,0.06)",
-  color: "rgba(255,255,255,0.5)",
-  fontFamily: "var(--font-minecraft)",
-  fontSize: "11px",
+const pillStyle: React.CSSProperties = {
+  padding: "15px 10px",
+  fontSize: "8px",
   letterSpacing: "3px",
+  color: "#444",
+  background: "transparent",
   textTransform: "uppercase",
+  textAlign: "center",
+  border: "0",
+  borderRight: "1px solid #111",
   cursor: "pointer",
+  transition: "0.2s",
+  fontFamily: "var(--font-minecraft)",
 }
