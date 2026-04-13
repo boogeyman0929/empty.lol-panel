@@ -232,13 +232,13 @@
   inset: 0;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.88)),
+    linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.66)),
     url("/lain-neg-BKqyW8Dh.gif");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: grayscale(1) contrast(0.8) brightness(0.42);
-  opacity: 0.46;
+  filter: grayscale(1) contrast(0.92) brightness(0.72);
+  opacity: 0.68;
   pointer-events: none;
 }
 
