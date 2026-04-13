@@ -235,7 +235,7 @@
     linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.66)),
     url("/lain-neg-BKqyW8Dh.gif");
   background-position: center;
-  background-size: fill;
+  background-size: 120%;
   background-repeat: no-repeat;
   filter: grayscale(1) contrast(0.92) brightness(0.72);
   opacity: 0.68;
