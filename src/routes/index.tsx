@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import Header from "@/components/header";
-import Roster from "@/components/roster";
-import Grain from "@/components/grain";
-import Scanlines from "@/components/scanlines";
-import Particles from "@/components/particles";
-import EnterGate from "@/components/entergate";
+import { createFileRoute } from "@tanstack/react-router"
+import { useEffect, useState } from "react"
+import Header from "@/components/header"
+import Roster from "@/components/roster"
+import Grain from "@/components/grain"
+import Scanlines from "@/components/scanlines"
+import Particles from "@/components/particles"
+import EnterGate from "@/components/entergate"
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -14,61 +14,48 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "private roster" },
       { property: "og:title", content: "empty.lol" },
       { property: "og:description", content: "private roster" },
+      { name: "theme-color", content: "#000000" },
     ],
   }),
   component: Index,
-});
+})
 
 function Index() {
-  const [entered, setEntered] = useState(false);
+  const [entered, setEntered] = useState(false)
+  const [revealed, setRevealed] = useState(false)
+
+  useEffect(() => {
+    if (!entered) return
+    const timer = window.setTimeout(() => setRevealed(true), 40)
+    return () => window.clearTimeout(timer)
+  }, [entered])
 
   if (!entered) {
-    return <EnterGate onEnter={() => setEntered(true)} />;
+    return <EnterGate onEnter={() => setEntered(true)} />
   }
 
   return (
     <div
+      className={revealed ? "page-reveal" : ""}
       style={{
         minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
         position: "relative",
-        backgroundImage: "url(/images/bg.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        background: "#000",
       }}
     >
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(0,0,0,0.75)",
-          zIndex: 0,
-        }}
-      />
-      
+      <div className="bg-gif-layer" />
+      <div className="bg-vignette" />
+
       <Grain />
       <Scanlines />
       <Particles />
-      <div
-        style={{
-          position: "relative",
-          zIndex: 5,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "50px",
-          maxWidth: "400px",
-          width: "100%",
-          padding: "80px 20px 60px",
-        }}
-      >
-        <Header />
-        <Roster />
+
+      <div className="center-shell">
+        <div className="panel-wrap">
+          <Header />
+          <Roster />
+        </div>
       </div>
     </div>
-  );
+  )
 }
