@@ -1,25 +1,29 @@
-import { useState, useRef } from "react";
-import logoImg from "@/assets/logo.png";
+import { useRef, useState } from "react"
+import logoImg from "@/assets/logo.png"
 
 interface Props {
-  onEnter: () => void;
+  onEnter: () => void
 }
 
 export default function EnterGate({ onEnter }: Props) {
-  const [fading, setFading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [fading, setFading] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   function handleClick() {
-    setFading(true);
+    if (fading) return
+
+    setFading(true)
+
     try {
       if (!audioRef.current) {
-        audioRef.current = new Audio("/audio/decay.mp3");
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0.4;
+        audioRef.current = new Audio("/audio/decay.mp3")
+        audioRef.current.loop = true
+        audioRef.current.volume = 0.35
       }
-      audioRef.current.play();
-    } catch (_) {}
-    setTimeout(() => onEnter(), 1200);
+      audioRef.current.play().catch(() => {})
+    } catch {}
+
+    setTimeout(() => onEnter(), 1100)
   }
 
   return (
@@ -35,7 +39,7 @@ export default function EnterGate({ onEnter }: Props) {
         justifyContent: "center",
         zIndex: 5000,
         cursor: "pointer",
-        animation: fading ? "gateFade 1.2s forwards" : undefined,
+        animation: fading ? "gateFadeBlack 1.1s ease forwards" : undefined,
       }}
     >
       <img
@@ -45,11 +49,11 @@ export default function EnterGate({ onEnter }: Props) {
         style={{
           width: "120px",
           height: "auto",
-          filter: "grayscale(1) contrast(0.85)",
+          filter: "grayscale(1) brightness(0.92) contrast(0.9)",
           marginBottom: "24px",
-          userSelect: "none",
         }}
       />
+
       <p
         style={{
           fontFamily: "var(--font-minecraft)",
@@ -58,36 +62,40 @@ export default function EnterGate({ onEnter }: Props) {
           color: "#f2f2f2",
           fontWeight: 700,
           textTransform: "uppercase",
-          marginBottom: "8px",
+          margin: 0,
+          marginBottom: "10px",
         }}
       >
         empty.lol
       </p>
+
       <p
         style={{
           fontFamily: "var(--font-minecraft)",
           fontSize: "9px",
           letterSpacing: "2px",
-          opacity: 0.25,
+          opacity: 0.28,
           textTransform: "uppercase",
           color: "#f2f2f2",
+          margin: 0,
           marginBottom: "40px",
         }}
       >
         private roster
       </p>
+
       <p
         style={{
           fontFamily: "var(--font-minecraft)",
           fontSize: "11px",
           letterSpacing: "4px",
           color: "#f2f2f2",
-          opacity: 0,
-          animation: "fadePulse 3s infinite",
+          animation: "fadePulse 2.8s ease-in-out infinite",
+          margin: 0,
         }}
       >
-        CLICK TO PROCEED
+        click to proceed
       </p>
     </div>
-  );
+  )
 }
