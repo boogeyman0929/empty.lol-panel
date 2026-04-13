@@ -229,6 +229,24 @@
   }
 }
 
+@keyframes hangingSway {
+  0% {
+    transform: translateX(-50%) rotate(-6deg);
+  }
+  20% {
+    transform: translateX(-50%) rotate(-3.5deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(5deg);
+  }
+  75% {
+    transform: translateX(-50%) rotate(2deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(-6deg);
+  }
+}
+
 .page-reveal {
   animation: pageReveal 1.15s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -237,14 +255,7 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.66)),
-    url("/lain-neg-BKqyW8Dh.gif");
-  background-position: center;
-  background-size: 85%;
-  background-repeat: no-repeat;
-  filter: grayscale(1) contrast(0.92) brightness(0.72);
-  opacity: 0.68;
+  background: #000;
   pointer-events: none;
 }
 
@@ -303,4 +314,72 @@
   justify-content: center;
   gap: 24px;
   overflow: hidden;
+}
+
+.hanging-wrap {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 340px;
+  height: 100vh;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hanging-rope {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateX(-50%);
+}
+
+.hanging-girl {
+  position: absolute;
+  top: 115px;
+  left: 50%;
+  width: 280px;
+  height: auto;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  animation: hangingSway 7.2s ease-in-out infinite;
+  filter: grayscale(1) brightness(0.72) contrast(0.96);
+  opacity: 0.92;
+}
+
+.hanging-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  width: 170px;
+  height: 28px;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.58);
+  filter: blur(18px);
+  border-radius: 999px;
+  opacity: 0.36;
+}
+
+@media (max-width: 640px) {
+  .hanging-wrap {
+    width: 280px;
+  }
+
+  .hanging-rope {
+    height: 100px;
+  }
+
+  .hanging-girl {
+    top: 95px;
+    width: 220px;
+  }
+
+  .hanging-shadow {
+    width: 130px;
+    bottom: 130px;
+  }
 }
