@@ -43,12 +43,24 @@ function Index() {
         background: "#000",
       }}
     >
-      <div className="bg-gif-layer" />
-      <div className="bg-vignette" />
+<div className="bg-gif-layer" />
 
-      <Grain />
-      <Scanlines />
-      <Particles />
+<div className="hanging-wrap">
+  <div className="hanging-rope" />
+  <img
+    src="/girlhang.png"
+    alt=""
+    className="girlhang"
+    draggable={false}
+  />
+  <div className="hanging-shadow" />
+</div>
+
+<div className="bg-vignette" />
+
+<Grain />
+<Scanlines />
+<Particles />
 
       <div className="center-shell">
         <div className="panel-wrap">
