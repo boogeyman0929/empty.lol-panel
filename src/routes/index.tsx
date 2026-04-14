@@ -6,6 +6,7 @@ import Grain from "@/components/grain"
 import Scanlines from "@/components/scanlines"
 import Particles from "@/components/particles"
 import EnterGate from "@/components/entergate"
+import DevToolsBlocker from "@/components/devtoolsblocker"
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -84,18 +85,27 @@ function Index() {
         background: "#000",
       }}
     >
+      <DevToolsBlocker />
       <div className="bg-gif-layer" />
 
-      <div className="hanging-wrap">
-        <div className="hanging-rope" />
-        <img
-          src="/hanging-girl.png"
-          alt=""
-          className="hanging-girl"
-          draggable={false}
-        />
-        <div className="hanging-shadow" />
-      </div>
+      {/* Lain gif on the right */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          width: "420px",
+          height: "100vh",
+          backgroundImage: "url(/images/lain-neg.gif)",
+          backgroundPosition: "center top",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.08,
+          pointerEvents: "none",
+          zIndex: 2,
+          filter: "grayscale(1) brightness(0.6)",
+        }}
+      />
 
       <div className="bg-vignette" />
 

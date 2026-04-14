@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 
 type Member = {
   name: string
@@ -16,10 +16,26 @@ export default function MemberModal({
   member: Member
   onClose: () => void
 }) {
+  const [displayedBio, setDisplayedBio] = useState("")
+
+  useEffect(() => {
+    setDisplayedBio("")
+    let i = 0
+    const interval = setInterval(() => {
+      i++
+      setDisplayedBio(member.bio.slice(0, i))
+      if (i >= member.bio.length) clearInterval(interval)
+    }, 35)
+    return () => clearInterval(interval)
+  }, [member.bio])
+
   const openLink = (url: string | null) => {
     if (!url) return
     window.open(url, "_blank", "noopener,noreferrer")
   }
+
+  const actionCount = (member.link ? 1 : 0) + (member.discord ? 1 : 0) + 1
+  const gridCols = `repeat(${actionCount}, minmax(0, 1fr))`
 
   return (
     <div
@@ -32,83 +48,73 @@ export default function MemberModal({
         alignItems: "center",
         justifyContent: "center",
         padding: "28px",
-        background: "rgba(0,0,0,0.82)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
+        background: "rgba(0,0,0,0.9)",
         animation: "fadein 0.18s ease",
       }}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          width: "min(920px, 92vw)",
-          minHeight: "520px",
-          background: "rgba(8,8,8,0.96)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          display: "grid",
-          gridTemplateColumns: "300px 1fr",
+          width: "min(550px, 92vw)",
+          minHeight: "260px",
+          background: "#080808",
+          border: "1px solid #1a1a1a",
+          display: "flex",
+          flexDirection: "row",
           overflow: "hidden",
           boxShadow: "0 30px 100px rgba(0,0,0,0.6)",
         }}
       >
+        {/* Sidebar */}
         <div
           style={{
-            borderRight: "1px solid rgba(255,255,255,0.06)",
-            padding: "42px 28px 34px",
+            width: "180px",
+            padding: "30px",
+            borderRight: "1px solid #1a1a1a",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "flex-start",
-            background: "rgba(5,5,5,0.92)",
+            background: "#050505",
           }}
         >
           <div
             style={{
-              width: "210px",
-              height: "210px",
-              border: "1px solid rgba(255,255,255,0.05)",
+              width: "120px",
+              height: "120px",
+              border: "1px solid #333",
               background: `#000 center/cover no-repeat url(${member.pfp})`,
-              filter: "grayscale(100%) contrast(1.15) brightness(0.45)",
-              marginBottom: "34px",
+              filter: "grayscale(100%) contrast(1.3) brightness(0.4)",
+              marginBottom: "20px",
               flexShrink: 0,
             }}
           />
-
           <div
             style={{
-              fontFamily: "Pricedown, sans-serif",
-              fontSize: "30px",
+              fontFamily: "var(--font-pricedown)",
+              fontSize: "18px",
               letterSpacing: "4px",
               color: "#f2f2f2",
               textTransform: "uppercase",
               textAlign: "center",
-              lineHeight: 1,
+              fontWeight: "bold",
             }}
           >
             {member.name}
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minWidth: 0,
-          }}
-        >
+        {/* Main */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
           <div
             style={{
-              height: "78px",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              display: "flex",
-              alignItems: "center",
-              padding: "0 42px",
-              background: "rgba(10,10,10,0.95)",
-              color: "rgba(255,255,255,0.28)",
-              fontFamily: "Minecraft, monospace",
-              fontSize: "11px",
-              letterSpacing: "4px",
+              fontSize: "9px",
+              color: "#333",
+              letterSpacing: "3px",
               textTransform: "uppercase",
+              padding: "15px 25px",
+              borderBottom: "1px solid #1a1a1a",
+              background: "#0a0a0a",
+              fontFamily: "var(--font-minecraft)",
             }}
           >
             {member.role === "founder" ? "founder" : "node_01 // session_active"}
@@ -117,52 +123,44 @@ export default function MemberModal({
           <div
             style={{
               flex: 1,
-              padding: "42px",
+              padding: "25px",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              background: "rgba(8,8,8,0.96)",
+              alignItems: "flex-start",
+              background: "#080808",
             }}
           >
             <p
               style={{
                 margin: 0,
-                maxWidth: "520px",
-                color: "rgba(255,255,255,0.78)",
+                color: "#999",
                 fontFamily: '"Courier New", monospace',
-                fontSize: "clamp(22px, 2.2vw, 34px)",
-                lineHeight: 1.9,
+                fontSize: "11px",
+                lineHeight: 1.7,
                 letterSpacing: "0.5px",
-                textWrap: "balance",
               }}
             >
-              {member.bio}
+              {displayedBio}
+              <span style={{ animation: "blink 1s step-end infinite", opacity: 0.6 }}>▌</span>
             </p>
           </div>
 
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
+              gridTemplateColumns: gridCols,
+              borderTop: "1px solid #1a1a1a",
             }}
           >
-            <button
-              type="button"
-              onClick={() => openLink(member.link)}
-              style={actionStyle}
-            >
-              telegram
-            </button>
-
-            <button
-              type="button"
-              onClick={() => openLink(member.discord)}
-              style={actionStyle}
-            >
-              discord
-            </button>
-
+            {member.link && (
+              <button type="button" onClick={() => openLink(member.link)} style={actionStyle}>
+                telegram
+              </button>
+            )}
+            {member.discord && (
+              <button type="button" onClick={() => openLink(member.discord)} style={actionStyle}>
+                discord
+              </button>
+            )}
             <button
               type="button"
               onClick={onClose}
@@ -178,13 +176,13 @@ export default function MemberModal({
 }
 
 const actionStyle: React.CSSProperties = {
-  height: "64px",
+  padding: "15px 10px",
   background: "transparent",
   border: "0",
-  borderRight: "1px solid rgba(255,255,255,0.06)",
-  color: "rgba(255,255,255,0.42)",
-  fontFamily: "Minecraft, monospace",
-  fontSize: "11px",
+  borderRight: "1px solid #111",
+  color: "#444",
+  fontFamily: "var(--font-minecraft)",
+  fontSize: "8px",
   letterSpacing: "3px",
   textTransform: "uppercase",
   cursor: "pointer",
