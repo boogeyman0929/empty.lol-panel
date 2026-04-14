@@ -1,3 +1,3 @@
 export default function Scanlines() {
-  return <div className="scanlines" />
+  return <div aria-hidden="true" className="scanlines-layer" />
 }
