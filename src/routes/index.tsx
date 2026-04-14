@@ -87,26 +87,6 @@ function Index() {
     >
       <DevToolsBlocker />
       <div className="bg-gif-layer" />
-
-      {/* Lain gif on the right */}
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          width: "420px",
-          height: "100vh",
-          backgroundImage: "url(/images/lain-neg.gif)",
-          backgroundPosition: "center top",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.08,
-          pointerEvents: "none",
-          zIndex: 2,
-          filter: "grayscale(1) brightness(0.6)",
-        }}
-      />
-
       <div className="bg-vignette" />
 
       <Grain />
